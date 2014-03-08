@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var scrollTop = 0;
     // Datapicker settings
     var datepickerOptions = {
         format: "dd.mm.yyyy",
@@ -144,7 +145,8 @@ $(document).ready(function () {
         }).done(function (data) {
                 $("div.form.schedule div.panel-body").html(data);
                 $("div.form.schedule").show();
-                $('html, body').scrollTop($("div.form.schedule").offset().top - 20);
+                scrollTop = $("div.form.schedule").offset().top - 20;
+                $('html, body').scrollTop(scrollTop);
                 if ($('input[name="remember"]').is(':checked'))
                     Service.cookifyGroup($grHidden.val(), $grText.val());
             }).fail(function (jqXHR, textStatus) {
@@ -152,6 +154,10 @@ $(document).ready(function () {
             }).always(function () {
                 Service.hideCogWheel();
             });
+    });
+
+    $('footer').click(function() {
+        $('html, body').scrollTop(scrollTop);
     });
 
     // Loading data from cookies ...

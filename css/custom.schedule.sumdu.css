@@ -136,3 +136,22 @@ ul.ui-autocomplete li a:hover {
     border-top-right-radius            : 4px !important;
     border-bottom-right-radius         : 4px !important;
 }
+
+footer {
+    cursor : pointer;
+}
+
+footer div.container:before {
+    position    : absolute;
+    right       : 15px;
+    color       : #cccccc;
+    font-size   : 20px;
+    font-family : 'Glyphicons Halflings';
+    font-style  : normal;
+    font-weight : 400;
+    content     : "\e093";
+}
+
+footer:hover div.container:before {
+    color : #000000;
+}
