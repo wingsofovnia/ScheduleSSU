@@ -98,9 +98,9 @@ $(document).ready(function () {
         });
 
         // Autocomplete rooms
-        var $rmText = $('div.input-group.teacher input[type="text"]');
-        var $rmHidden = $('div.input-group.teacher input[type="hidden"]');
-        var $rmLoading = $('div.input-group.teacher .loading');
+        var $rmText = $('div.input-group.auditorium input[type="text"]');
+        var $rmHidden = $('div.input-group.auditorium input[type="hidden"]');
+        var $rmLoading = $('div.input-group.auditorium .loading');
         $rmText.autocomplete({
             source: 'php/index.php?method=getAuditoriums',
             minLength: 1,

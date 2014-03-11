@@ -152,6 +152,8 @@ footer div.container:before {
     content     : "\e093";
 }
 
-footer:hover div.container:before {
-    color : #000000;
+@media (max-width : 990px) {
+    div.alert.hidef {
+        display : none;
+    }
 }

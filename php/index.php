@@ -4,6 +4,7 @@ require_once 'ScheduleAPI.php';
 $api = new ScheduleAPI();
 
 ## Reading request...
+$_GET = array_filter($_GET);
 $_GET = array_map('trim', $_GET);
 $method = $_GET['method'];
 $term = isset($_GET['term']) ? $_GET['term'] : '';
@@ -18,8 +19,8 @@ elseif ($method == 'getTeachers')
 elseif ($method == 'getSchedule') {
     $events = $api->getSchedule($_GET['date_beg'], $_GET['date_end'],
         isset($_GET['id_grp']) ? $_GET['id_grp'] : NULL,
-        isset($_GET['id_fio']) ? $_GET['id_fio'] : NULL,
         isset($_GET['id_aud']) ? $_GET['id_aud'] : NULL,
+        isset($_GET['id_fio']) ? $_GET['id_fio'] : NULL,
         false); // Cache?
 
     if (count($events) == 0)
