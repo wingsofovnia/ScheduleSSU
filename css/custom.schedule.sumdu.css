@@ -3,12 +3,36 @@ body {
     height : 100%;
 }
 
-#wrap {
-    min-height : 100%;
-    height     : auto;
-    margin     : 0 auto -40px;
-    padding    : 0 0 40px;
+@font-face {
+    font-family : 'schedule';
+    src         : url('../fonts/schedule.eot?89548286');
+    src         : url('../fonts/schedule.eot?89548286#iefix') format('embedded-opentype'), url('../fonts/schedule.woff?89548286') format('woff'), url('../fonts/schedule.ttf?89548286') format('truetype'), url('../fonts/schedule.svg?89548286#schedule') format('svg');
+    font-weight : normal;
+    font-style  : normal;
 }
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family     : "schedule";
+    font-style      : normal;
+    font-weight     : normal;
+    speak           : none;
+    display         : inline-block;
+    text-decoration : inherit;
+    width           : 1em;
+    margin-right    : .2em;
+    text-align      : center;
+    font-variant    : normal;
+    text-transform  : none;
+    line-height     : 1em;
+    margin-left     : .2em;
+}
+
+.icon-home:before { content: '\e801'; }
+.icon-fullsize:before { content: '\e804'; }
+.icon-briefcase:before { content: '\e803'; }
+.icon-calendar:before { content: '\e802'; }
+.icon-user:before { content: '\e800'; }
+.icon-exchange:before { content: '\e806'; }
 
 section.main.row {
     margin : 0;
