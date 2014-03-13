@@ -27,12 +27,29 @@ body {
     margin-left     : .2em;
 }
 
-.icon-home:before { content: '\e801'; }
-.icon-fullsize:before { content: '\e804'; }
-.icon-briefcase:before { content: '\e803'; }
-.icon-calendar:before { content: '\e802'; }
-.icon-user:before { content: '\e800'; }
-.icon-exchange:before { content: '\e806'; }
+.icon-home:before {
+    content : '\e801';
+}
+
+.icon-fullsize:before {
+    content : '\e804';
+}
+
+.icon-briefcase:before {
+    content : '\e803';
+}
+
+.icon-calendar:before {
+    content : '\e802';
+}
+
+.icon-user:before {
+    content : '\e800';
+}
+
+.icon-exchange:before {
+    content : '\e806';
+}
 
 section.main.row {
     margin : 0;
@@ -166,14 +183,12 @@ footer {
 }
 
 footer div.container:before {
-    position    : absolute;
-    right       : 15px;
-    color       : #cccccc;
-    font-size   : 20px;
-    font-family : 'Glyphicons Halflings';
-    font-style  : normal;
-    font-weight : 400;
-    content     : "\e093";
+    position   : absolute;
+    right      : 15px;
+    color      : #cccccc;
+    font-size  : 27px;
+    margin-top : -3px;
+    content    : "\2191";
 }
 
 @media (max-width : 990px) {
