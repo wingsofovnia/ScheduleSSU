@@ -22,7 +22,7 @@ class ScheduleAPI {
         return iconv(mb_detect_encoding($data, mb_detect_order(), true), "UTF-8", $data);
     }
 
-    private function cache($data, $tag, $life = 86400) {
+    private function cache($data, $tag, $life = 86400000) {
         $d = array('data' => $data,
             'meta' => array(
                 'created' => time(),

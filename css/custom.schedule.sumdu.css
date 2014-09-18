@@ -196,3 +196,31 @@ footer div.container:before {
         display : none;
     }
 }
+
+div.input-group a.clear-input {
+    position: absolute;
+    right: 0;
+    top: 1px;
+    display: none;
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+    font-size: 32px;
+    line-height: 20px;
+    text-decoration: none;
+}
+
+a.group-placeholder {
+    display: none;
+    font-size: 14px;
+    font-weight: 800;
+    color: #FFFFFF;
+    background: #428bca;
+    padding: 2px 10px;
+    border-radius: 5px;
+    margin-left: 5px;
+    text-decoration: none;
+}
+a.group-placeholder:hover {
+    background: #336e9e;
+}

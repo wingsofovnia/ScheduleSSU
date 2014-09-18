@@ -37,10 +37,11 @@ elseif ($method == 'getSchedule') {
         echo str_replace('{EVENT_GROUP_TIME}', rus_date(ucfirst(strftime("%A, %d.%m.%Y", strtotime($date)))), $group_start);
         foreach ($day as $event) {
             $body = array(
-                '{EVENT_HEADING}' => $event['ABBR_DISC'] . ($event['NAME_STUD'] != '' ? chr(32) . '(' . $event['NAME_STUD'] . ')' : ''),
-                '{EVENT_LECTURER}' => $event['NAME_FIO'] != '' ? 'Викладач:' . chr(32) . $event['NAME_FIO'] : '',
-                '{EVENT_TIME}' => $event['TIME_PAIR'],
-                '{EVENT_LOCATION}' => $event['NAME_AUD'] != '' ? $event['NAME_AUD'] : ''
+                '{EVENT_HEADING}'   => $event['ABBR_DISC'] . ($event['NAME_STUD'] != '' ? chr(32) . '(' . $event['NAME_STUD'] . ')' : ''),
+                '{EVENT_LECTURER}'  => $event['NAME_FIO'] != '' ? 'Викладач:' . chr(32) . $event['NAME_FIO'] : '',
+                '{EVENT_TIME}'      => $event['TIME_PAIR'],
+                '{EVENT_LOCATION}'  => $event['NAME_AUD'] != '' ? $event['NAME_AUD'] : '',
+                '{EVENT_GROUP}'     => $event['NAME_GROUP']
             );
             echo str_replace(array_keys($body), $body, $group_body);
         }

@@ -2,6 +2,7 @@ var Service;
 (function ($) {
     Service = new
         (function () {
+            var GROUP_COOKIE_EXPIRES_HR = 25 * 24;
             var cookiefied;
             var id_grp;
             var name_grp;
@@ -10,9 +11,10 @@ var Service;
                 return cookiefied;
             };
 
-            var setCookie = function (key, value) {
+            var setCookie = function (key, value, time) {
+                time = time || 24;  // Time in hours
                 var expires = new Date();
-                expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+                expires.setTime(expires.getTime() + (time * 60 * 60 * 1000));
                 document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
             };
 
@@ -26,19 +28,21 @@ var Service;
             };
 
             this.cookifyGroup = function (group_id, group_name) {
-                if (group_id.length == 0 || group_name.length == 0) {
-                    deleteCookie("_id_grp");
-                    deleteCookie("_name_grp");
-                    deleteCookie("_ISCOOKIEFIED");
-                    console.log("Bad request cookies!")
-                    return;
-                }
-                setCookie("_id_grp", group_id);
-                setCookie("_name_grp", '"' + group_name + '"');
-                setCookie("_ISCOOKIEFIED", true);
+                if (group_id.length == 0 || group_name.length == 0)
+                    return this.decookifyGroup();
+
+                setCookie("_id_grp", group_id, GROUP_COOKIE_EXPIRES_HR);
+                setCookie("_name_grp", '"' + group_name + '"', GROUP_COOKIE_EXPIRES_HR);
+                setCookie("_ISCOOKIEFIED", true, GROUP_COOKIE_EXPIRES_HR);
                 id_grp = group_id;
                 name_grp = group_name;
                 cookiefied = true;
+            };
+
+            this.decookifyGroup = function() {
+                deleteCookie("_id_grp");
+                deleteCookie("_name_grp");
+                deleteCookie("_ISCOOKIEFIED");
             };
 
             this.getCookiefiedGroupId = function () {
@@ -65,8 +69,9 @@ var Service;
             };
 
             this.alert = function (s) {
-                $("div.alert").html(s).show();
-                $('html, body').scrollTop($("div.alert").offset().top - 20);
+                var _alert = $("div.alert.alert-danger");
+                _alert.html(s).show();
+                $('html, body').scrollTop(_alert.offset().top - 20);
 
                 setTimeout(function () {
                     $("div.alert").fadeOut();

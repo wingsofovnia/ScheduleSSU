@@ -33,6 +33,13 @@ $(document).ready(function () {
     var $grText = $('div.input-group.groups input[type="text"]');
     var $grHidden = $('div.input-group.groups input[type="hidden"]');
     var $grLoading = $('div.input-group.groups .loading');
+    var $grCleaner = $('div.input-group.groups a.clear-input');
+    var $grPlaceholder = $('a.group-placeholder');
+    $grText.on('change', function() {
+        $grText.val('');
+        $grHidden.val('');
+        $grCleaner.hide();
+    });
     $grText.autocomplete({
         source: 'php/index.php?method=getGroups',
         minLength: 1,
@@ -48,14 +55,12 @@ $(document).ready(function () {
         },
         select: function (event, ui) {
             fillAutocomplete($grText, $grHidden, ui);
+            $grCleaner.show();
             $requestButton.focus();
             return false;
         }, focus: function (event, ui) {
             fillAutocomplete($grText, $grHidden, ui);
             return false;
-        }, change: function () {
-            if ($grText.val().length == 0)
-                $grHidden.val('');
         }
     });
 
@@ -71,6 +76,12 @@ $(document).ready(function () {
         var $tchText = $('div.input-group.teacher input[type="text"]');
         var $tchHidden = $('div.input-group.teacher input[type="hidden"]');
         var $tchLoading = $('div.input-group.teacher .loading');
+        var $tchCleaner = $('div.input-group.teacher a.clear-input');
+        $tchText.on('change', function() {
+            $tchText.val('');
+            $tchHidden.val('');
+            $grCleaner.hide();
+        });
         $tchText.autocomplete({
             source: 'php/index.php?method=getTeachers',
             minLength: 2,
@@ -87,13 +98,11 @@ $(document).ready(function () {
             select: function (event, ui) {
                 fillAutocomplete($tchText, $tchHidden, ui);
                 $requestButton.focus();
+                $tchCleaner.show();
                 return false;
             }, focus: function (event, ui) {
                 fillAutocomplete($tchText, $tchHidden, ui);
                 return false;
-            }, change: function () {
-                if ($tchText.val().length == 0)
-                    $tchHidden.val('');
             }
         });
 
@@ -101,6 +110,12 @@ $(document).ready(function () {
         var $rmText = $('div.input-group.auditorium input[type="text"]');
         var $rmHidden = $('div.input-group.auditorium input[type="hidden"]');
         var $rmLoading = $('div.input-group.auditorium .loading');
+        var $rmCleaner = $('div.input-group.auditorium a.clear-input');
+        $rmText.on('change', function() {
+            $rmText.val('');
+            $rmHidden.val('');
+            $grCleaner.hide();
+        });
         $rmText.autocomplete({
             source: 'php/index.php?method=getAuditoriums',
             minLength: 1,
@@ -117,13 +132,11 @@ $(document).ready(function () {
             select: function (event, ui) {
                 fillAutocomplete($rmText, $rmHidden, ui);
                 $requestButton.focus();
+                $rmCleaner.show();
                 return false;
             }, focus: function (event, ui) {
                 fillAutocomplete($rmText, $rmHidden, ui);
                 return false;
-            }, change: function () {
-                if ($rmText.val().length == 0)
-                    $rmHidden.val('');
             }
         });
     });
@@ -147,8 +160,11 @@ $(document).ready(function () {
                 $("div.form.schedule").show();
                 scrollTop = $("div.form.schedule").offset().top - 20;
                 $('html, body').scrollTop(scrollTop);
-                if ($('input[name="remember"]').is(':checked'))
+                if ($('input[name="remember"]').is(':checked')) {
                     Service.cookifyGroup($grHidden.val(), $grText.val());
+                    $grPlaceholder.html($grText.val());
+                    $grPlaceholder.show();
+                }
             }).fail(function (jqXHR, textStatus) {
                 Service.alert("<strong>Помилка!</strong> Сервер розкладу часто глючить, тому спробуйте повторно відіслати запит. Текст помилки: <strong>" + textStatus + "</strong>");
             }).always(function () {
@@ -160,11 +176,34 @@ $(document).ready(function () {
         $('html, body').scrollTop(scrollTop);
     });
 
+    // Clear button
+    var $clButtons = $('a.clear-input');
+    $clButtons.on('click', function (e) {
+        e.preventDefault();
+        var $parent = $(this).closest('div.input-group');
+        $(this).hide();
+        $parent.find('input').val('');
+    });
+
     // Loading data from cookies ...
     if (Service.isCookiefied()) {
-        $('input[name="remember"]').prop('checked', true);
+        var $rem = $('input[name="remember"]');
+        $rem.prop('checked', true);
         $grText.val(Service.getCookiefiedGroupName());
         $grHidden.val(Service.getCookiefiedGroupId());
         $requestButton.click();
+        $grCleaner.show();
+        $grPlaceholder.html(Service.getCookiefiedGroupName());
+        $grPlaceholder.on('click', function(e) {
+            e.preventDefault();
+            $grText.val(Service.getCookiefiedGroupName());
+            $grHidden.val(Service.getCookiefiedGroupId());
+            $grCleaner.show();
+        });
+        $grPlaceholder.show();
+        $rem.on('click', function() {
+            $grPlaceholder.hide();
+            Service.decookifyGroup();
+        })
     }
 });
