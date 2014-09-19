@@ -160,11 +160,6 @@ $(document).ready(function () {
                 $("div.form.schedule").show();
                 scrollTop = $("div.form.schedule").offset().top - 20;
                 $('html, body').scrollTop(scrollTop);
-                if ($('input[name="remember"]').is(':checked')) {
-                    Service.cookifyGroup($grHidden.val(), $grText.val());
-                    $grPlaceholder.html($grText.val());
-                    $grPlaceholder.show();
-                }
             }).fail(function (jqXHR, textStatus) {
                 Service.alert("<strong>Помилка!</strong> Сервер розкладу часто глючить, тому спробуйте повторно відіслати запит. Текст помилки: <strong>" + textStatus + "</strong>");
             }).always(function () {
@@ -176,7 +171,7 @@ $(document).ready(function () {
         $('html, body').scrollTop(scrollTop);
     });
 
-    // Clear button
+    // Clear buttons
     var $clButtons = $('a.clear-input');
     $clButtons.on('click', function (e) {
         e.preventDefault();
@@ -185,25 +180,37 @@ $(document).ready(function () {
         $parent.find('input').val('');
     });
 
-    // Loading data from cookies ...
+    // Loading group from cookies
+    var $rem = $('input[name="remember"]');
     if (Service.isCookiefied()) {
-        var $rem = $('input[name="remember"]');
         $rem.prop('checked', true);
         $grText.val(Service.getCookiefiedGroupName());
         $grHidden.val(Service.getCookiefiedGroupId());
         $requestButton.click();
         $grCleaner.show();
         $grPlaceholder.html(Service.getCookiefiedGroupName());
-        $grPlaceholder.on('click', function(e) {
-            e.preventDefault();
-            $grText.val(Service.getCookiefiedGroupName());
-            $grHidden.val(Service.getCookiefiedGroupId());
-            $grCleaner.show();
-        });
         $grPlaceholder.show();
-        $rem.on('click', function() {
+    }
+
+    // Remember toggle event listener
+    $rem.on('click', function() {
+        var id = $grHidden.val();
+        var name = $grText.val();
+        if ($rem.is(':checked') && id && name) {
+            Service.cookifyGroup($grHidden.val(), $grText.val());
+            $grPlaceholder.html($grText.val());
+            $grPlaceholder.show();
+        } else if (!$rem.is(':checked')) {
             $grPlaceholder.hide();
             Service.decookifyGroup();
-        })
-    }
+        }
+    });
+
+    // Placeholder click2paste group listener
+    $grPlaceholder.on('click', function(e) {
+        e.preventDefault();
+        $grText.val(Service.getCookiefiedGroupName());
+        $grHidden.val(Service.getCookiefiedGroupId());
+        $grCleaner.show();
+    });
 });
