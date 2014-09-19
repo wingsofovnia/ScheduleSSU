@@ -230,3 +230,12 @@ button.btn-request {
     width: 100%;
     outline: none !important;
 }
+
+a.list-group-item-passed {
+    color: #999999;
+    background-color: #f5f5f5;
+}
+
+a.list-group-item-passed h4 {
+    color: #7c7c7c !important;
+}

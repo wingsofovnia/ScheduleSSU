@@ -33,6 +33,7 @@ elseif ($method == 'getSchedule') {
     $group_end = $matches[4];
 
     ## Filling template
+    $i = 0;
     foreach ($events as $date => $day) {
         echo str_replace('{EVENT_GROUP_TIME}', rus_date(ucfirst(strftime("%A, %d.%m.%Y", strtotime($date)))), $group_start);
         foreach ($day as $event) {
@@ -41,10 +42,23 @@ elseif ($method == 'getSchedule') {
                 '{EVENT_LECTURER}'  => $event['NAME_FIO'] != '' ? 'Викладач:' . chr(32) . $event['NAME_FIO'] : '',
                 '{EVENT_TIME}'      => $event['TIME_PAIR'],
                 '{EVENT_LOCATION}'  => $event['NAME_AUD'] != '' ? $event['NAME_AUD'] : '',
-                '{EVENT_GROUP}'     => $event['NAME_GROUP']
+                '{EVENT_GROUP}'     => $event['NAME_GROUP'],
+                '{ITEM_CLASS}'       => ''
             );
+            if ($i == 0) {
+                $evTimeEnd = explode('-', $event['TIME_PAIR']);
+                $evTimeEnd = strtotime($evTimeEnd[1]);
+                $evTimeStart = $evTimeEnd - 80 * 60; // -1:20 = 80 min;
+                $currTime = time();
+
+                if ($currTime >= $evTimeStart && $currTime <= $evTimeEnd)
+                    $body['{ITEM_CLASS}'] = 'list-group-item-success';
+                else if ($currTime > $evTimeEnd)
+                    $body['{ITEM_CLASS}'] = 'list-group-item-passed';
+            }
             echo str_replace(array_keys($body), $body, $group_body);
         }
+        $i++;
         echo $group_end;
     }
     die();
