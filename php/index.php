@@ -24,7 +24,7 @@ elseif ($method == 'getSchedule') {
         false); // Cache?
 
     if (count($events) == 0)
-        die('<div class="text-center">Вибачте, нічого не знайдено. Спробуйте інщі параметри запиту.</div>');
+        die('<div class="text-center">Вибачте, нічого не знайдено. Спробуйте використати інщі параметри запиту.</div>');
 
     $tpl = file_get_contents("template.html");
     preg_match("/(.*)({EVENTS:}(.*){ENDEVENTS})(.*)/s", $tpl, $matches);
@@ -35,7 +35,7 @@ elseif ($method == 'getSchedule') {
     ## Filling template
     $i = 0;
     foreach ($events as $date => $day) {
-        echo str_replace('{EVENT_GROUP_TIME}', rus_date(ucfirst(strftime("%A, %d.%m.%Y", strtotime($date)))), $group_start);
+        echo str_replace('{EVENT_GROUP_TIME}', ua_date(ucfirst(strftime("%A, %d.%m.%Y", strtotime($date)))), $group_start);
         foreach ($day as $event) {
             $body = array(
                 '{EVENT_HEADING}'   => $event['ABBR_DISC'] . ($event['NAME_STUD'] != '' ? chr(32) . '(' . $event['NAME_STUD'] . ')' : ''),
@@ -66,12 +66,12 @@ elseif ($method == 'getSchedule') {
     die("Unknown method");
 }
 
-function rus_date($text) {
+function ua_date($text) {
     $translate = array(
-        "am" => "дп",
-        "pm" => "пп",
-        "AM" => "ДП",
-        "PM" => "ПП",
+        "am" => "am",
+        "pm" => "pm",
+        "AM" => "AM",
+        "PM" => "PM",
         "Monday" => "Понеділок",
         "Mon" => "Пн",
         "Tuesday" => "Вівторок",
@@ -85,34 +85,34 @@ function rus_date($text) {
         "Saturday" => "Субота",
         "Sat" => "Сб",
         "Sunday" => "Неділя",
-        "Sun" => "Вс",
-        "January" => "Января",
-        "Jan" => "Янв",
-        "February" => "Февраля",
-        "Feb" => "Фев",
-        "March" => "Марта",
-        "Mar" => "Мар",
-        "April" => "Апреля",
-        "Apr" => "Апр",
-        "May" => "Мая",
-        "June" => "Июня",
-        "Jun" => "Июн",
-        "July" => "Июля",
-        "Jul" => "Июл",
-        "August" => "Августа",
-        "Aug" => "Авг",
-        "September" => "Сентября",
-        "Sep" => "Сен",
-        "October" => "Октября",
-        "Oct" => "Окт",
-        "November" => "Ноября",
-        "Nov" => "Ноя",
-        "December" => "Декабря",
-        "Dec" => "Дек",
-        "st" => "ое",
-        "nd" => "ое",
+        "Sun" => "Нд",
+        "January" => "Січня",
+        "Jan" => "Січ",
+        "February" => "Лютого",
+        "Feb" => "Лют",
+        "March" => "Березня",
+        "Mar" => "Берез",
+        "April" => "Квітня",
+        "Apr" => "Квіт",
+        "May" => "Травня",
+        "June" => "Червня",
+        "Jun" => "Черв",
+        "July" => "Липня",
+        "Jul" => "Лип",
+        "August" => "Серпня",
+        "Aug" => "Серп",
+        "September" => "Вересня",
+        "Sep" => "Верес",
+        "October" => "Жовтня",
+        "Oct" => "Жов",
+        "November" => "Листопада",
+        "Nov" => "Лис-топ",
+        "December" => "Грудня",
+        "Dec" => "Груд",
+        "st" => "е",
+        "nd" => "е",
         "rd" => "е",
-        "th" => "ое"
+        "th" => "е"
     );
     return strtr($text, $translate);
 }
